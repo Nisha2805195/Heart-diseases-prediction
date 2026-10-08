@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Heart Disease Prediction Dashboard</title>
+    <title>HeartCare AI</title>
 
     <style>
         * {
@@ -14,195 +14,285 @@
             font-family: Arial, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f8fafc;
+            color: #0f172a;
         }
 
-        .header {
-            background: #1e3a8a;
+        nav {
+            min-height: 70px;
+            padding: 16px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .logo span {
+            color: #0f172a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+        }
+
+        .nav-links a:hover {
+            color: #dc2626;
+        }
+
+        .hero {
+            min-height: 680px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 70px 8%;
+            background: linear-gradient(135deg, #fff1f2, #ffffff);
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 30px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 5vw, 58px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #080808;
+        }
+
+        h1 span {
+            color: #dc2626;
+        }
+
+        .hero-content p {
+            color: #64748b;
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 26px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .primary {
+            background: #dc2626;
             color: white;
-            padding: 25px 40px;
         }
 
-        .header h1 {
-            font-size: 30px;
-            margin-bottom: 5px;
+        .primary:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
         }
 
-        .header p {
-            opacity: 0.85;
+        .secondary {
+            background: white;
+            color: #334155;
+            border: 1px solid #cbd5e1;
         }
 
-        .container {
-            width: 92%;
-            max-width: 1200px;
-            margin: 30px auto;
+        .secondary:hover {
+            background: #f1f5f9;
         }
 
-        .dashboard {
+        .heart-card {
+            width: 380px;
+            min-height: 380px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .heart {
+            font-size: 110px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .heart-card h2 {
+            margin: 20px 0 10px;
+        }
+
+        .heart-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        section.info {
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cards {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
         .card {
+            padding: 35px 25px;
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
         }
 
-        .card h2 {
-            margin-bottom: 20px;
-            color: #1e3a8a;
+        .card .icon {
+            font-size: 42px;
+            margin-bottom: 18px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
+        .card h3 {
+            margin-bottom: 12px;
         }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 7px;
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
         }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
+        .how {
+            background: #f1f5f9;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #2563eb;
-        }
-
-        .button-area {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        button {
-            padding: 13px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .predict-btn {
-            background: #2563eb;
+        .cta {
+            padding: 70px 8%;
+            text-align: center;
             color: white;
-            flex: 1;
+            background: #dc2626;
         }
 
-        .predict-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .reset-btn {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .result-card {
-            text-align: center;
-        }
-
-        .heart-icon {
-            font-size: 60px;
-            margin: 10px 0 20px;
-        }
-
-        .result-title {
-            font-size: 22px;
-            font-weight: bold;
+        .cta h2 {
+            font-size: 34px;
             margin-bottom: 15px;
         }
 
-        .result-text {
-            color: #6b7280;
+        .cta p {
             margin-bottom: 25px;
+            line-height: 1.6;
         }
 
-        .probability {
-            font-size: 45px;
-            font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 15px;
-        }
-
-        .progress {
-            width: 100%;
-            height: 12px;
-            background: #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #2563eb;
-            transition: width 0.5s ease;
-        }
-
-        .status {
-            margin-top: 25px;
-            padding: 12px;
-            border-radius: 8px;
-            background: #f3f4f6;
-            color: #6b7280;
-        }
-
-        .error {
+        .cta .btn {
+            background: white;
             color: #dc2626;
-            margin-top: 15px;
-            font-weight: bold;
         }
 
-        .info-card {
-            margin-top: 25px;
-            background: #eff6ff;
-            border-left: 5px solid #2563eb;
-            padding: 15px;
-            border-radius: 8px;
-            color: #374151;
-        }
-
-        .footer {
+        footer {
+            padding: 25px;
             text-align: center;
-            margin: 30px 0;
-            color: #6b7280;
-            font-size: 13px;
+            background: #0f172a;
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.8;
         }
 
         @media (max-width: 850px) {
+            .nav-links {
+                gap: 12px;
+                font-size: 14px;
+            }
 
-            .dashboard {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .heart-card {
+                width: 100%;
+                max-width: 380px;
+            }
+
+            .cards {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .form-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column;
+                gap: 14px;
             }
 
-            .header {
-                padding: 20px;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
-            .header h1 {
-                font-size: 24px;
+            .hero {
+                padding: 45px 6%;
+            }
+
+            .hero-content p {
+                font-size: 16px;
             }
         }
     </style>
@@ -210,561 +300,117 @@
 
 <body>
 
-    <!-- HEADER -->
+    <nav>
+        <div class="logo">❤️ HeartCare <span>AI</span></div>
 
-    <div class="header">
-        <h1>❤️ Heart Disease Prediction</h1>
-        <p>Machine Learning Based Prediction Dashboard</p>
-    </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how">How It Works</a>
+        </div>
+    </nav>
 
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="badge">🤖 Machine Learning Based Prediction</div>
 
-    <!-- MAIN CONTAINER -->
+            <h1>
+                Understand Your <span>Heart Health</span> With AI
+            </h1>
 
-    <div class="container">
+            <p>
+                Get a machine-learning based estimate of heart disease
+                likelihood by entering health-related information.
+            </p>
 
-        <div class="dashboard">
+            <div class="buttons">
+                <a href="/predict.html" class="btn primary">
+                    Predict Now →
+                </a>
 
-            <!-- INPUT CARD -->
+                <a href="#how" class="btn secondary">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <div class="heart-card">
+            <div class="heart">❤️</div>
+            <h2>Heart Disease Prediction</h2>
+            <p>
+                Powered by Python, Scikit-learn, Logistic Regression
+                and FastAPI.
+            </p>
+        </div>
+    </section>
+
+    <section class="info" id="features">
+        <h2 class="section-title">Why HeartCare AI?</h2>
+        <p class="section-subtitle">
+            A simple educational machine-learning prediction dashboard.
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <div class="icon">🤖</div>
+                <h3>Machine Learning</h3>
+                <p>Uses a trained model to generate a prediction from the entered data.</p>
+            </div>
 
             <div class="card">
-
-                <h2>Patient Information</h2>
-
-                <form id="predictionForm">
-
-                    <div class="form-grid">
-
-                        <!-- Age -->
-
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input
-                                type="number"
-                                id="age"
-                                min="1"
-                                max="120"
-                                required
-                            >
-                        </div>
-
-
-                        <!-- Sex -->
-
-                        <div class="form-group">
-                            <label>Sex</label>
-
-                            <select id="sex" required>
-                                <option value="">Select</option>
-                                <option value="1">Male</option>
-                                <option value="0">Female</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Chest Pain -->
-
-                        <div class="form-group">
-                            <label>Chest Pain Type</label>
-
-                            <select id="cp" required>
-                                <option value="">Select</option>
-                                <option value="0">Type 0</option>
-                                <option value="1">Type 1</option>
-                                <option value="2">Type 2</option>
-                                <option value="3">Type 3</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Blood Pressure -->
-
-                        <div class="form-group">
-                            <label>Resting Blood Pressure</label>
-
-                            <input
-                                type="number"
-                                id="trestbps"
-                                required
-                            >
-                        </div>
-
-
-                        <!-- Cholesterol -->
-
-                        <div class="form-group">
-                            <label>Cholesterol</label>
-
-                            <input
-                                type="number"
-                                id="chol"
-                                required
-                            >
-                        </div>
-
-
-                        <!-- Blood Sugar -->
-
-                        <div class="form-group">
-                            <label>Fasting Blood Sugar</label>
-
-                            <select id="fbs" required>
-                                <option value="">Select</option>
-                                <option value="0">Normal</option>
-                                <option value="1">High</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Rest ECG -->
-
-                        <div class="form-group">
-                            <label>Resting ECG</label>
-
-                            <select id="restecg" required>
-                                <option value="">Select</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Maximum Heart Rate -->
-
-                        <div class="form-group">
-                            <label>Maximum Heart Rate</label>
-
-                            <input
-                                type="number"
-                                id="thalach"
-                                required
-                            >
-                        </div>
-
-
-                        <!-- Exercise Angina -->
-
-                        <div class="form-group">
-                            <label>Exercise Induced Angina</label>
-
-                            <select id="exang" required>
-                                <option value="">Select</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Oldpeak -->
-
-                        <div class="form-group">
-                            <label>Oldpeak</label>
-
-                            <input
-                                type="number"
-                                id="oldpeak"
-                                step="0.1"
-                                required
-                            >
-                        </div>
-
-
-                        <!-- Slope -->
-
-                        <div class="form-group">
-                            <label>Slope</label>
-
-                            <select id="slope" required>
-                                <option value="">Select</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-
-
-                        <!-- CA -->
-
-                        <div class="form-group">
-                            <label>Number of Major Vessels (CA)</label>
-
-                            <select id="ca" required>
-                                <option value="">Select</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-
-                        <!-- Thal -->
-
-                        <div class="form-group">
-                            <label>Thal</label>
-
-                            <select id="thal" required>
-                                <option value="">Select</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-
-                    <!-- BUTTONS -->
-
-                    <div class="button-area">
-
-                        <button
-                            type="submit"
-                            class="predict-btn"
-                        >
-                            🔍 Predict Heart Disease
-                        </button>
-
-                        <button
-                            type="button"
-                            class="reset-btn"
-                            onclick="resetForm()"
-                        >
-                            Reset
-                        </button>
-
-                    </div>
-
-                    <div id="error" class="error"></div>
-
-                </form>
-
+                <div class="icon">📊</div>
+                <h3>Probability</h3>
+                <p>Displays model-estimated probabilities for the prediction classes.</p>
             </div>
 
+            <div class="card">
+                <div class="icon">⚡</div>
+                <h3>Fast Results</h3>
+                <p>FastAPI connects the webpage to the machine-learning model.</p>
+            </div>
+        </div>
+    </section>
 
-            <!-- RESULT CARD -->
+    <section class="info how" id="how">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">
+            Three simple steps to generate a model estimate.
+        </p>
 
-            <div class="card result-card">
-
-                <h2>Prediction Result</h2>
-
-                <div class="heart-icon">
-                    ❤️
-                </div>
-
-                <div
-                    id="resultTitle"
-                    class="result-title"
-                >
-                    Waiting for Prediction
-                </div>
-
-                <div
-                    id="resultText"
-                    class="result-text"
-                >
-                    Enter patient information and click Predict.
-                </div>
-
-                <div
-                    id="probability"
-                    class="probability"
-                >
-                    --%
-                </div>
-
-                <div class="progress">
-
-                    <div
-                        id="progressBar"
-                        class="progress-bar"
-                    ></div>
-
-                </div>
-
-                <div
-                    id="status"
-                    class="status"
-                >
-                    No prediction yet
-                </div>
-
+        <div class="cards">
+            <div class="card">
+                <div class="icon">1️⃣</div>
+                <h3>Enter Information</h3>
+                <p>Enter the requested health-related values in the prediction form.</p>
             </div>
 
+            <div class="card">
+                <div class="icon">2️⃣</div>
+                <h3>AI Analysis</h3>
+                <p>The trained model processes the supplied values.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">3️⃣</div>
+                <h3>View Result</h3>
+                <p>View the model output and estimated probability.</p>
+            </div>
         </div>
-
-
-        <!-- INFORMATION -->
-
-        <div class="info-card">
-
-            <strong>⚠️ Important:</strong>
-
-            This dashboard provides a prediction generated by
-            a machine-learning model for educational/project purposes.
-            It is not a medical diagnosis.
-
-        </div>
-
-    </div>
-
-
-    <div class="footer">
-
-        Heart Disease Prediction System |
-        Machine Learning Project
-
-    </div>
-
-
-    <!-- JAVASCRIPT -->
-
-    <script>
-
-        const form =
-            document.getElementById("predictionForm");
-
-        form.addEventListener(
-            "submit",
-            async function(event) {
-
-                event.preventDefault();
-
-                const error =
-                    document.getElementById("error");
-
-                const resultTitle =
-                    document.getElementById("resultTitle");
-
-                const resultText =
-                    document.getElementById("resultText");
-
-                const probability =
-                    document.getElementById("probability");
-
-                const progressBar =
-                    document.getElementById("progressBar");
-
-                const status =
-                    document.getElementById("status");
-
-
-                error.innerText = "";
-
-                resultTitle.innerText =
-                    "Predicting...";
-
-                resultText.innerText =
-                    "Please wait.";
-
-                status.innerText =
-                    "Connecting to prediction model...";
-
-
-                try {
-
-                    const data = {
-
-                        age: Number(
-                            document.getElementById("age").value
-                        ),
-
-                        sex: Number(
-                            document.getElementById("sex").value
-                        ),
-
-                        cp: Number(
-                            document.getElementById("cp").value
-                        ),
-
-                        trestbps: Number(
-                            document.getElementById("trestbps").value
-                        ),
-
-                        chol: Number(
-                            document.getElementById("chol").value
-                        ),
-
-                        fbs: Number(
-                            document.getElementById("fbs").value
-                        ),
-
-                        restecg: Number(
-                            document.getElementById("restecg").value
-                        ),
-
-                        thalach: Number(
-                            document.getElementById("thalach").value
-                        ),
-
-                        exang: Number(
-                            document.getElementById("exang").value
-                        ),
-
-                        oldpeak: Number(
-                            document.getElementById("oldpeak").value
-                        ),
-
-                        slope: Number(
-                            document.getElementById("slope").value
-                        ),
-
-                        ca: Number(
-                            document.getElementById("ca").value
-                        ),
-
-                        thal: Number(
-                            document.getElementById("thal").value
-                        )
-
-                    };
-
-
-                    const response =
-                        await fetch(
-                            "/api/predict",
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify(data)
-                            }
-                        );
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Prediction API error"
-                        );
-
-                    }
-
-
-                    const result =
-                        await response.json();
-
-
-                    const prediction =
-                        result.prediction;
-
-                    const resultMessage =
-                        result.result;
-
-                    const probabilityValue =
-                        Number(result.probability);
-
-
-                    resultTitle.innerText =
-                        resultMessage;
-
-
-                    probability.innerText =
-                        probabilityValue.toFixed(2)
-                        + "%";
-
-
-                    progressBar.style.width =
-                        probabilityValue + "%";
-
-
-                    if (prediction === 1) {
-
-                        status.innerText =
-                            "Higher likelihood detected by the model.";
-
-                    } else {
-
-                        status.innerText =
-                            "Lower likelihood detected by the model.";
-
-                    }
-
-
-                    resultText.innerText =
-                        "Prediction generated successfully.";
-
-                }
-
-                catch (err) {
-
-                    console.error(err);
-
-                    error.innerText =
-                        "Unable to connect to the prediction API. Make sure FastAPI is running.";
-
-                    resultTitle.innerText =
-                        "Prediction Failed";
-
-                    resultText.innerText =
-                        "Please check your server.";
-
-                    probability.innerText =
-                        "--%";
-
-                    progressBar.style.width =
-                        "0%";
-
-                    status.innerText =
-                        "API connection error.";
-
-                }
-
-            }
-        );
-
-
-        function resetForm() {
-
-            document
-                .getElementById("predictionForm")
-                .reset();
-
-
-            document
-                .getElementById("resultTitle")
-                .innerText =
-                "Waiting for Prediction";
-
-
-            document
-                .getElementById("resultText")
-                .innerText =
-                "Enter patient information and click Predict.";
-
-
-            document
-                .getElementById("probability")
-                .innerText =
-                "--%";
-
-
-            document
-                .getElementById("progressBar")
-                .style.width =
-                "0%";
-
-
-            document
-                .getElementById("status")
-                .innerText =
-                "No prediction yet";
-
-
-            document
-                .getElementById("error")
-                .innerText =
-                "";
-
-        }
-
-    </script>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to Generate a Prediction?</h2>
+        <p>Enter your information to get a machine-learning based estimate.</p>
+
+        <a href="/predict.html" class="btn">
+            Start Prediction →
+        </a>
+    </section>
+
+    <footer>
+        <p>© 2026 HeartCare AI | Educational Machine Learning Project</p>
+        <p>⚠️ This project is for educational purposes and is not a medical diagnosis.</p>
+    </footer>
 
 </body>
 </html>
